@@ -2,9 +2,10 @@
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
+# cross check CI
 
 trigger:
-- azure-pipelines4
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -20,15 +21,13 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-  
 - task: CopyFiles@2
   inputs:
-    contents: '**/*.war'
-    targetFolder: '$(build.artifactStagingDirectory)'
-
+    Contents: '**/*.war'
+    TargetFolder: '$(build.artifactstagingdirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
-    artifactName: 'war'
-    pathToPublish: '$(build.artifactStagingDirectory)'
-
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'warfile'
+    publishLocation: 'Container'
 
